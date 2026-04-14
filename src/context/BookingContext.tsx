@@ -13,7 +13,7 @@ import {
   getUnitPriceForId,
   unitLabelForId,
   washItems,
-  WASH_PRIMARY_ID,
+  washServiceId,
 } from "../data/catalog";
 
 export interface OrderLine {
@@ -50,8 +50,7 @@ const defaultState: BookingState = {
 };
 
 const ORDER_IDS = [
-  WASH_PRIMARY_ID,
-  ...washItems.map((r) => r.id),
+  ...washItems.flatMap((r) => [washServiceId(r.id, "wash"), washServiceId(r.id, "iron")]),
   ...dryItems.map((r) => r.id),
 ];
 

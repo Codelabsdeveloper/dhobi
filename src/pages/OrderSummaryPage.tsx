@@ -5,8 +5,8 @@ import { getCatalogRowById } from "../data/catalog";
 import type { OrderLine } from "../context/BookingContext";
 import { BasketIcon, CatalogIcon } from "../components/CatalogIcon";
 import { useBooking } from "../context/BookingContext";
-import { WHATSAPP_BUSINESS_DISPLAY } from "../config";
-import { isValidIndiaMobile, normalizeIndiaMsisdn } from "../utils/phone";
+import { BRAND_NAME, WHATSAPP_BUSINESS_DISPLAY, WHATSAPP_BUSINESS_E164 } from "../config";
+import { formatIndiaPhoneDisplay, isValidIndiaMobile } from "../utils/phone";
 
 function LineIcon({ lineId }: { lineId: string }) {
   const row = getCatalogRowById(lineId);
@@ -18,12 +18,17 @@ function LineIcon({ lineId }: { lineId: string }) {
   );
 }
 
-function buildCustomerOrderMessage(lines: OrderLine[], total: number, address: string) {
+function buildCustomerOrderMessage(
+  lines: OrderLine[],
+  total: number,
+  address: string,
+  customerPhoneDisplay: string,
+) {
   const itemsBlock = lines
     .map((l) => `• ${l.name} ×${l.qty} (${l.unitLabel}) — ₹${l.lineTotal}`)
     .join("\n");
   return [
-    "*Your laundry order – DoBiWash*",
+    `*Your laundry order – ${BRAND_NAME}*`,
     "",
     "Thank you! Here is your order summary:",
     "",
@@ -33,8 +38,9 @@ function buildCustomerOrderMessage(lines: OrderLine[], total: number, address: s
     "",
     `Pickup address: ${address}`,
     "",
-    "We'll confirm pickup soon. For queries, WhatsApp us at",
-    WHATSAPP_BUSINESS_DISPLAY,
+    `My mobile (for pickup coordination): ${customerPhoneDisplay}`,
+    "",
+    `Reply on WhatsApp: ${WHATSAPP_BUSINESS_DISPLAY}`,
   ].join("\n");
 }
 
@@ -54,13 +60,13 @@ export function OrderSummaryPage() {
       return;
     }
 
-    const customerE164 = normalizeIndiaMsisdn(state.phone.trim());
     const text = buildCustomerOrderMessage(
       orderLines,
       totalRupees,
       state.address.trim() || "—",
+      formatIndiaPhoneDisplay(state.phone.trim()),
     );
-    const url = `https://wa.me/${customerE164}?text=${encodeURIComponent(text)}`;
+    const url = `https://wa.me/${WHATSAPP_BUSINESS_E164}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank", "noopener,noreferrer");
     navigate("/order/confirm");
   };

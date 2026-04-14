@@ -15,7 +15,6 @@ export function BookingDetailsPage() {
         <button type="button" className="icon-btn" onClick={() => navigate(-1)} aria-label="Back">
           <ArrowLeft size={22} />
         </button>
-        <span className="time-pill">03:41</span>
       </header>
 
       <figure className="form-hero-figure">

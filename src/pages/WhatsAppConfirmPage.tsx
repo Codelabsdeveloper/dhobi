@@ -9,9 +9,8 @@ import {
   Paperclip,
   Video,
 } from "lucide-react";
-import { WHATSAPP_BUSINESS_DISPLAY } from "../config";
+import { BRAND_NAME, WHATSAPP_BUSINESS_DISPLAY } from "../config";
 import { useBooking } from "../context/BookingContext";
-import { formatIndiaPhoneDisplay } from "../utils/phone";
 
 export function WhatsAppConfirmPage() {
   const { state, orderLines, totalRupees, totalUnits } = useBooking();
@@ -25,8 +24,8 @@ export function WhatsAppConfirmPage() {
           </span>
           <span className="wa-avatar" aria-hidden />
           <div className="wa-topbar-titles">
-            <span className="wa-chat-name">DoBiWash</span>
-            <span className="wa-chat-sub">To {formatIndiaPhoneDisplay(state.phone)}</span>
+            <span className="wa-chat-name">{BRAND_NAME}</span>
+            <span className="wa-chat-sub">WhatsApp {WHATSAPP_BUSINESS_DISPLAY}</span>
           </div>
         </div>
         <div className="wa-topbar-actions">
@@ -63,7 +62,8 @@ export function WhatsAppConfirmPage() {
             </div>
             <hr className="wa-bubble-rule" />
             <p className="wa-bubble-cta">
-              Send in WhatsApp from {WHATSAPP_BUSINESS_DISPLAY} — chat opens to your number above.
+              Your order opens a WhatsApp chat with us at {WHATSAPP_BUSINESS_DISPLAY} (your number
+              above is included in the message for pickup coordination).
             </p>
             <span className="wa-bubble-time">12:34</span>
           </div>

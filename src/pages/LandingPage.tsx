@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Shirt, Sparkles, Wind } from "lucide-react";
+import { MapPin, Shirt, Sparkles, Wind } from "lucide-react";
 import { IMAGES } from "../constants/images";
+import { BRAND_NAME, OKBOYS_PLAY_STORE_URL, OKBOYS_PROMO_BLURB, SERVICE_AREAS_BLURB } from "../config";
 
 export function LandingPage() {
   return (
@@ -22,9 +23,8 @@ export function LandingPage() {
             <span className="landing-logo">
               <Shirt size={28} strokeWidth={2.2} />
             </span>
-            <span className="landing-brand-name">DoBiWash</span>
+            <span className="landing-brand-name">{BRAND_NAME}</span>
           </div>
-          <span className="time-pill time-pill--light">09:41</span>
         </header>
 
         <div className="landing-main">
@@ -33,6 +33,25 @@ export function LandingPage() {
               <h1 className="landing-title">Laundry Services</h1>
               <p className="landing-tagline">Fast • Affordable • Reliable</p>
             </section>
+
+            <aside className="landing-service-areas" role="note" aria-label="Areas we operate in">
+              <span className="landing-service-areas-icon" aria-hidden>
+                <MapPin size={20} strokeWidth={2.2} />
+              </span>
+              <p className="landing-service-areas-text">{SERVICE_AREAS_BLURB}</p>
+            </aside>
+
+            <aside className="landing-okboys-promo" aria-label="OkBoys pickup and drop app">
+              <p className="landing-okboys-promo-text">{OKBOYS_PROMO_BLURB}</p>
+              <a
+                href={OKBOYS_PLAY_STORE_URL}
+                className="landing-okboys-promo-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OkBoys on Google Play
+              </a>
+            </aside>
 
             <section className="landing-tabs" aria-label="Service categories">
               <div className="landing-tab landing-tab--active">
@@ -45,7 +64,7 @@ export function LandingPage() {
                 <span className="landing-tab-icon landing-tab-icon--muted">
                   <Wind size={22} />
                 </span>
-                <span className="landing-tab-label">Wash - Iron</span>
+                <span className="landing-tab-label">Iron</span>
               </div>
               <div className="landing-tab">
                 <span className="landing-tab-icon landing-tab-icon--muted">
@@ -61,23 +80,27 @@ export function LandingPage() {
             <div className="landing-divider" />
             <ul className="landing-mini-list">
               <li>
-                <span>Pant &amp; Shirt</span>
-                <span>₹60</span>
+                <span>Pant / shirt (wash)</span>
+                <span>₹35 ea.</span>
               </li>
               <li>
-                <span>Salwar Kameez</span>
-                <span>₹60</span>
+                <span>Salwar kameez</span>
+                <span>₹75 wash</span>
               </li>
               <li>
-                <span>Bed Sheet</span>
-                <span>₹30</span>
+                <span>Bed sheet</span>
+                <span>₹50 wash</span>
               </li>
             </ul>
             <h2 className="landing-section-title landing-section-title--spaced">DRY CLEANING</h2>
             <div className="landing-divider" />
             <ul className="landing-mini-list">
               <li>
-                <span>Blazer</span>
+                <span>Saree</span>
+                <span>₹200</span>
+              </li>
+              <li>
+                <span>Blazer / jacket</span>
                 <span>₹250</span>
               </li>
             </ul>
@@ -95,7 +118,7 @@ export function LandingPage() {
           Place order
         </Link>
         <p className="landing-back-welcome">
-          <Link to="/">← Elegant welcome page</Link>
+          <Link to="/">← Home page</Link>
         </p>
         </div>
       </div>

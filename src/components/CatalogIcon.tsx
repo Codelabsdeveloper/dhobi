@@ -23,16 +23,21 @@ const toneClass: Record<CatalogRow["iconTone"], string> = {
 };
 
 const iconMap: Record<string, LucideIcon> = {
-  "pant-shirt": Shirt,
+  pant: Footprints,
+  shirt: Shirt,
   salwar: Layers,
-  chuni: Sparkles,
+  dupatta: Sparkles,
   blouse: Shirt,
   saree: Layers,
   bedsheet: BedDouble,
   pillow: BedDouble,
   others: Footprints,
+  "dry-saree": Layers,
+  "patu-saree": Layers,
+  "dry-blouse": Shirt,
   blazer: Shirt,
-  blankets: Snowflake,
+  "blanket-single": Snowflake,
+  "blanket-double": Snowflake,
 };
 
 export function CatalogIcon({ row, size = 20 }: { row: CatalogRow; size?: number }) {

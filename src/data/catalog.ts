@@ -8,35 +8,93 @@ export interface CatalogRow {
   iconTone: "blue" | "brown" | "pink" | "orange" | "sky" | "yellow" | "tan" | "slate" | "amber";
 }
 
-export const WASH_PRIMARY_ID = "wash-iron";
+/** Garment row with separate wash and iron unit prices. */
+export interface WashCatalogRow {
+  id: string;
+  name: string;
+  washPrice: number;
+  ironPrice: number;
+  unit: PriceUnit;
+  iconTone: CatalogRow["iconTone"];
+}
 
-export const washPrimary = {
-  id: WASH_PRIMARY_ID,
-  label: "Wash - Iron",
-  pricePerPair: 60,
-} as const;
-
-export const washItems: CatalogRow[] = [
-  { id: "pant-shirt", name: "Pant & Shirt", price: 75, unit: "pair", iconTone: "blue" },
-  { id: "salwar", name: "Salwar Kameez", price: 75, unit: "pair", iconTone: "blue" },
-  { id: "chuni", name: "Chuni", price: 50, unit: "pair", iconTone: "orange" },
-  { id: "blouse", name: "Blouse", price: 30, unit: "pair", iconTone: "pink" },
-  { id: "saree", name: "Saree", price: 50, unit: "pair", iconTone: "orange" },
-  { id: "bedsheet", name: "Bed Sheet", price: 50, unit: "pair", iconTone: "sky" },
-  { id: "pillow", name: "Pillow Covers", price: 25, unit: "pair", iconTone: "yellow" },
-  { id: "others", name: "Others", price: 50, unit: "pair", iconTone: "tan" },
+export const washItems: WashCatalogRow[] = [
+  { id: "pant", name: "Pant", washPrice: 35, ironPrice: 35, unit: "piece", iconTone: "blue" },
+  { id: "shirt", name: "Shirt", washPrice: 35, ironPrice: 35, unit: "piece", iconTone: "blue" },
+  {
+    id: "salwar",
+    name: "Salwar kameez",
+    washPrice: 75,
+    ironPrice: 75,
+    unit: "piece",
+    iconTone: "blue",
+  },
+  {
+    id: "dupatta",
+    name: "Chunni",
+    washPrice: 20,
+    ironPrice: 10,
+    unit: "piece",
+    iconTone: "orange",
+  },
+  { id: "blouse", name: "Blouse", washPrice: 30, ironPrice: 20, unit: "piece", iconTone: "pink" },
+  { id: "saree", name: "Saree", washPrice: 130, ironPrice: 40, unit: "piece", iconTone: "orange" },
+  { id: "bedsheet", name: "Bed sheet", washPrice: 50, ironPrice: 20, unit: "piece", iconTone: "sky" },
+  {
+    id: "pillow",
+    name: "Pillow cover",
+    washPrice: 15,
+    ironPrice: 15,
+    unit: "piece",
+    iconTone: "yellow",
+  },
+  {
+    id: "others",
+    name: "Others",
+    washPrice: 30,
+    ironPrice: 20,
+    unit: "piece",
+    iconTone: "tan",
+  },
 ];
 
 export const dryItems: CatalogRow[] = [
-  { id: "blazer", name: "Blazer", price: 250, unit: "piece", iconTone: "slate" },
-  { id: "blankets", name: "Blankets", price: 200, unit: "piece", iconTone: "amber" },
+  { id: "dry-saree", name: "Saree", price: 200, unit: "piece", iconTone: "orange" },
+  { id: "patu-saree", name: "Patu saree", price: 250, unit: "piece", iconTone: "orange" },
+  { id: "dry-blouse", name: "Blouse", price: 100, unit: "piece", iconTone: "pink" },
+  { id: "blazer", name: "Blazer / jacket", price: 250, unit: "piece", iconTone: "slate" },
+  { id: "blanket-single", name: "Blanket (single)", price: 200, unit: "piece", iconTone: "amber" },
+  { id: "blanket-double", name: "Blanket (double)", price: 300, unit: "piece", iconTone: "amber" },
 ];
 
-const ALL_ITEM_IDS: string[] = [
-  WASH_PRIMARY_ID,
-  ...washItems.map((r) => r.id),
-  ...dryItems.map((r) => r.id),
-];
+export function washServiceId(itemId: string, kind: "wash" | "iron"): string {
+  return `${itemId}-${kind}`;
+}
+
+function parseWashServiceId(
+  id: string,
+): { baseId: string; kind: "wash" | "iron" } | null {
+  if (id.endsWith("-wash")) return { baseId: id.slice(0, -"-wash".length), kind: "wash" };
+  if (id.endsWith("-iron")) return { baseId: id.slice(0, -"-iron".length), kind: "iron" };
+  return null;
+}
+
+const WASH_ORDER_IDS: string[] = washItems.flatMap((r) => [
+  washServiceId(r.id, "wash"),
+  washServiceId(r.id, "iron"),
+]);
+
+const ALL_ITEM_IDS: string[] = [...WASH_ORDER_IDS, ...dryItems.map((r) => r.id)];
+
+export function washRowForCatalogIcon(row: WashCatalogRow): CatalogRow {
+  return {
+    id: row.id,
+    name: row.name,
+    price: row.washPrice,
+    unit: row.unit,
+    iconTone: row.iconTone,
+  };
+}
 
 export function buildEmptyQuantities(): Record<string, number> {
   const q: Record<string, number> = {};
@@ -45,24 +103,41 @@ export function buildEmptyQuantities(): Record<string, number> {
 }
 
 export function getUnitPriceForId(id: string): number {
-  if (id === WASH_PRIMARY_ID) return washPrimary.pricePerPair;
-  const row = washItems.find((r) => r.id === id) ?? dryItems.find((r) => r.id === id);
-  return row?.price ?? 0;
+  const svc = parseWashServiceId(id);
+  if (svc) {
+    const row = washItems.find((r) => r.id === svc.baseId);
+    if (!row) return 0;
+    return svc.kind === "wash" ? row.washPrice : row.ironPrice;
+  }
+  return dryItems.find((r) => r.id === id)?.price ?? 0;
 }
 
 export function getItemDisplayName(id: string): string {
-  if (id === WASH_PRIMARY_ID) return washPrimary.label;
-  return (
-    washItems.find((r) => r.id === id)?.name ?? dryItems.find((r) => r.id === id)?.name ?? id
-  );
+  const svc = parseWashServiceId(id);
+  if (svc) {
+    const row = washItems.find((r) => r.id === svc.baseId);
+    const name = row?.name ?? svc.baseId;
+    const svcLabel = svc.kind === "wash" ? "Wash" : "Iron";
+    return `${name} (${svcLabel})`;
+  }
+  return dryItems.find((r) => r.id === id)?.name ?? id;
 }
 
 export function getCatalogRowById(id: string): CatalogRow | undefined {
-  return washItems.find((r) => r.id === id) ?? dryItems.find((r) => r.id === id);
+  const dry = dryItems.find((r) => r.id === id);
+  if (dry) return dry;
+  const svc = parseWashServiceId(id);
+  if (!svc) return undefined;
+  const row = washItems.find((r) => r.id === svc.baseId);
+  return row ? washRowForCatalogIcon(row) : undefined;
 }
 
 export function unitLabelForId(id: string): string {
-  if (id === WASH_PRIMARY_ID) return "Pair";
-  const row = getCatalogRowById(id);
+  const svc = parseWashServiceId(id);
+  if (svc) {
+    const row = washItems.find((r) => r.id === svc.baseId);
+    return row?.unit === "piece" ? "Piece" : "Pair";
+  }
+  const row = dryItems.find((r) => r.id === id);
   return row?.unit === "piece" ? "Piece" : "Pair";
 }
