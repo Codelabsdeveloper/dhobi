@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import { Droplets, Flame, ShieldCheck, Sparkles, Clock } from "lucide-react";
 import { IMAGES } from "../constants/images";
+import {
+  BUSINESS_HOURS,
+  BUSINESS_OUTLET,
+  WHATSAPP_BUSINESS_DISPLAY,
+  WHATSAPP_BUSINESS_E164,
+} from "../config";
 
 export function MarketingLandingPage() {
   return (
@@ -43,7 +49,7 @@ export function MarketingLandingPage() {
             <figure className="ml-hero-figure">
               <img
                 src={IMAGES.steamWashHero}
-                alt="Washing machine running a warm, deep-clean cycle"
+                alt="Shirts hanging on a conveyor line in a bright, professional laundry facility"
                 width={1600}
                 height={1067}
                 decoding="async"
@@ -94,7 +100,7 @@ export function MarketingLandingPage() {
             <figure className="ml-split-media">
               <img
                 src={IMAGES.dhobiWorkers}
-                alt="Laundry team sorting and washing garments"
+                alt="Customer receiving cleaned garments in protective bags at the front door"
                 loading="lazy"
                 decoding="async"
               />
@@ -122,24 +128,22 @@ export function MarketingLandingPage() {
         </section>
 
         <section className="ml-section ml-section--soft">
-          <div className="ml-inner ml-gallery">
-            <figure className="ml-gallery-item ml-gallery-item--tall">
+          <div className="ml-inner ml-gallery ml-gallery--duo">
+            <figure className="ml-gallery-item">
               <img
                 src={IMAGES.dhobiFolded}
-                alt="Neatly folded stacks of finished laundry"
+                alt="Team member in uniform inspecting a finished shirt in a clear garment cover"
                 loading="lazy"
                 decoding="async"
               />
-              <figcaption>Pressed &amp; folded</figcaption>
             </figure>
             <figure className="ml-gallery-item">
               <img
                 src={IMAGES.heroDhobiGhat}
-                alt="Laundry washing and drying in the open air"
+                alt="Industrial laundry room with machines and fresh white linen in a cart"
                 loading="lazy"
                 decoding="async"
               />
-              <figcaption>Open-air finishing</figcaption>
             </figure>
           </div>
         </section>
@@ -164,15 +168,58 @@ export function MarketingLandingPage() {
 
       <footer className="ml-footer">
         <div className="ml-inner ml-footer-inner">
-          <span className="ml-wordmark ml-wordmark--footer">DoBiWash</span>
-          <p className="ml-footer-tag">Warm wash · careful fold · reliable pickup</p>
-          <button
-            type="button"
-            className="ml-footer-top"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          >
-            Back to top
-          </button>
+          <div className="ml-footer-brand-block">
+            <div className="ml-footer-brand-row">
+              <span className="ml-wordmark ml-wordmark--footer">DoBiWash</span>
+              <button
+                type="button"
+                className="ml-footer-top"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              >
+                Back to top
+              </button>
+            </div>
+            <p className="ml-footer-tag">Warm wash · careful fold · reliable pickup</p>
+          </div>
+          <div className="ml-footer-aside">
+            <address className="ml-footer-address">
+              <span className="ml-footer-address-title">Address &amp; contact</span>
+              <span className="ml-footer-address-body">
+                {BUSINESS_OUTLET.shopNumber}
+                <br />
+                {BUSINESS_OUTLET.street}
+                <br />
+                {BUSINESS_OUTLET.crossLandmark}
+                <br />
+                {BUSINESS_OUTLET.city}, {BUSINESS_OUTLET.state} — {BUSINESS_OUTLET.pincode}
+                <br />
+                <span className="ml-footer-address-meta">
+                  <span className="ml-footer-address-label">Phone</span>{" "}
+                  <a className="ml-footer-address-link" href={`tel:+${WHATSAPP_BUSINESS_E164}`}>
+                    {WHATSAPP_BUSINESS_DISPLAY}
+                  </a>
+                </span>
+                <br />
+                <span className="ml-footer-address-meta">
+                  <span className="ml-footer-address-label">Contact</span>{" "}
+                  {BUSINESS_OUTLET.contactPerson}
+                </span>
+              </span>
+            </address>
+            <div className="ml-footer-hours">
+              <span className="ml-footer-address-title">Opening hours</span>
+              <dl className="ml-footer-hours-list">
+                <div className="ml-footer-hours-row">
+                  <dt>{BUSINESS_HOURS.weekdayDays}</dt>
+                  <dd>{BUSINESS_HOURS.weekdayHours}</dd>
+                </div>
+                <div className="ml-footer-hours-row">
+                  <dt>{BUSINESS_HOURS.weekendDays}</dt>
+                  <dd>{BUSINESS_HOURS.weekendHours}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

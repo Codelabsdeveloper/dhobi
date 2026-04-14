@@ -21,7 +21,7 @@ export function BookingDetailsPage() {
       <figure className="form-hero-figure">
         <img
           src={IMAGES.dhobiFolded}
-          alt="Folded laundry stacked at a dhobi service"
+          alt="Laundry professional inspecting a finished garment in protective packaging"
           loading="lazy"
           decoding="async"
         />

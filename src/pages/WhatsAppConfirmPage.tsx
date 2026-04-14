@@ -26,9 +26,7 @@ export function WhatsAppConfirmPage() {
           <span className="wa-avatar" aria-hidden />
           <div className="wa-topbar-titles">
             <span className="wa-chat-name">DoBiWash</span>
-            <span className="wa-chat-sub">
-              Your number: {formatIndiaPhoneDisplay(state.phone)}
-            </span>
+            <span className="wa-chat-sub">To {formatIndiaPhoneDisplay(state.phone)}</span>
           </div>
         </div>
         <div className="wa-topbar-actions">
@@ -65,8 +63,7 @@ export function WhatsAppConfirmPage() {
             </div>
             <hr className="wa-bubble-rule" />
             <p className="wa-bubble-cta">
-              Your WhatsApp chat opens with {WHATSAPP_BUSINESS_DISPLAY} — order and pickup details are
-              prefilled; send the message to confirm.
+              Send in WhatsApp from {WHATSAPP_BUSINESS_DISPLAY} — chat opens to your number above.
             </p>
             <span className="wa-bubble-time">12:34</span>
           </div>

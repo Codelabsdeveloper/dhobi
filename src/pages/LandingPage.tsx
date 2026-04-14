@@ -8,7 +8,7 @@ export function LandingPage() {
       <figure className="landing-hero-media">
         <img
           src={IMAGES.heroDhobiGhat}
-          alt="Open-air dhobi ghat with laundry washing and drying"
+          alt="Industrial laundry with machines and stacked white linen"
           width={1400}
           height={788}
           decoding="async"

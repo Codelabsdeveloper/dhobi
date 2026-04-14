@@ -1,19 +1,13 @@
-/** Prefix for files in /public (correct when app `base` is a subpath, e.g. GitHub Pages). */
-function publicUrl(path: string): string {
-  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-  return `${base}${path}`;
-}
-
-/** Dhobi / washing themed photos in /public/images (add these files before deploy). */
+/** Brand photos in /public/images (PNG). */
 export const IMAGES = {
-  /** Mahalaxmi-style open-air dhobi ghat — laundry drying, sacks, open-air wash. */
-  heroDhobiGhat: publicUrl("/images/hero-laundry.jpg"),
-  /** Workers in a busy laundry (dhobi) workspace. */
-  dhobiWorkers: publicUrl("/images/dhobi-workers.jpg"),
-  /** Folded and stacked clothes at a laundry service. */
-  dhobiFolded: publicUrl("/images/dhobi-folded.jpg"),
-  /** Washing machine / tub — everyday washing step. */
-  washingTub: publicUrl("/images/washing-tub.jpg"),
-  /** Marketing hero — warm wash, machine care. */
-  steamWashHero: publicUrl("/images/steam-wash-hero.jpg"),
+  /** Facility / production line — gallery & landing hero strip. */
+  heroDhobiGhat: "/images/hero-laundry.png",
+  /** Delivery & customer care — marketing split, order summary. */
+  dhobiWorkers: "/images/dhobi-workers.png",
+  /** Professional finishing — booking hero, gallery, landing tiles. */
+  dhobiFolded: "/images/dhobi-folded.png",
+  /** Industrial wash area — service selection banner, landing. */
+  washingTub: "/images/washing-tub.png",
+  /** Marketing hero — clean conveyor / garment line. */
+  steamWashHero: "/images/steam-wash-hero.png",
 } as const;

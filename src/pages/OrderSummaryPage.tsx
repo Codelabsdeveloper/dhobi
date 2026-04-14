@@ -5,8 +5,8 @@ import { getCatalogRowById } from "../data/catalog";
 import type { OrderLine } from "../context/BookingContext";
 import { BasketIcon, CatalogIcon } from "../components/CatalogIcon";
 import { useBooking } from "../context/BookingContext";
-import { WHATSAPP_BUSINESS_DISPLAY, WHATSAPP_BUSINESS_E164 } from "../config";
-import { formatIndiaPhoneDisplay, isValidIndiaMobile } from "../utils/phone";
+import { WHATSAPP_BUSINESS_DISPLAY } from "../config";
+import { isValidIndiaMobile, normalizeIndiaMsisdn } from "../utils/phone";
 
 function LineIcon({ lineId }: { lineId: string }) {
   const row = getCatalogRowById(lineId);
@@ -18,12 +18,7 @@ function LineIcon({ lineId }: { lineId: string }) {
   );
 }
 
-function buildCustomerOrderMessage(
-  lines: OrderLine[],
-  total: number,
-  address: string,
-  phoneDisplay: string,
-) {
+function buildCustomerOrderMessage(lines: OrderLine[], total: number, address: string) {
   const itemsBlock = lines
     .map((l) => `• ${l.name} ×${l.qty} (${l.unitLabel}) — ₹${l.lineTotal}`)
     .join("\n");
@@ -36,10 +31,9 @@ function buildCustomerOrderMessage(
     "",
     `*Total: ₹${total}*`,
     "",
-    `Contact: ${phoneDisplay}`,
     `Pickup address: ${address}`,
     "",
-    "We'll confirm pickup soon. For queries, reply here or call/WhatsApp us at",
+    "We'll confirm pickup soon. For queries, WhatsApp us at",
     WHATSAPP_BUSINESS_DISPLAY,
   ].join("\n");
 }
@@ -60,13 +54,13 @@ export function OrderSummaryPage() {
       return;
     }
 
+    const customerE164 = normalizeIndiaMsisdn(state.phone.trim());
     const text = buildCustomerOrderMessage(
       orderLines,
       totalRupees,
       state.address.trim() || "—",
-      formatIndiaPhoneDisplay(state.phone.trim()),
     );
-    const url = `https://wa.me/${WHATSAPP_BUSINESS_E164}?text=${encodeURIComponent(text)}`;
+    const url = `https://wa.me/${customerE164}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank", "noopener,noreferrer");
     navigate("/order/confirm");
   };
@@ -83,7 +77,7 @@ export function OrderSummaryPage() {
       <figure className="form-hero-figure form-hero-figure--compact">
         <img
           src={IMAGES.dhobiWorkers}
-          alt="Laundry workers at a washing facility"
+          alt="Customer receiving cleaned garments at the door from a delivery professional"
           loading="lazy"
           decoding="async"
         />
