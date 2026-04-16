@@ -81,7 +81,7 @@ export function LandingPage() {
             <ul className="landing-mini-list">
               <li>
                 <span>Pant / shirt (wash)</span>
-                <span>₹35 ea.</span>
+                <span>₹15 ea.</span>
               </li>
               <li>
                 <span>Salwar kameez</span>

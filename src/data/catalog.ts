@@ -19,8 +19,8 @@ export interface WashCatalogRow {
 }
 
 export const washItems: WashCatalogRow[] = [
-  { id: "pant", name: "Pant", washPrice: 35, ironPrice: 35, unit: "piece", iconTone: "blue" },
-  { id: "shirt", name: "Shirt", washPrice: 35, ironPrice: 35, unit: "piece", iconTone: "blue" },
+  { id: "pant", name: "Pant", washPrice: 15, ironPrice: 15, unit: "piece", iconTone: "blue" },
+  { id: "shirt", name: "Shirt", washPrice: 15, ironPrice: 15, unit: "piece", iconTone: "blue" },
   {
     id: "salwar",
     name: "Salwar kameez",
